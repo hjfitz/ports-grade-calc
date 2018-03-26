@@ -43,25 +43,28 @@ const rootReducer = (state = initialState, action) => {
       const { credits, grade, name } = payload;
       const [unit] = curYear.units.reduce(year => year.name === name);
       Object.assign(unit, { credits, grade });
-      return state;
+      return clonedState;
     }
     case actions.ADD_UNIT: {
       curYear.units.push({ name: 'Placeholder', credits: 20, grade: 100 });
-      return state;
+      return clonedState;
     }
 
     case actions.REMOVE_UNIT: {
+      console.log('Remove year invoked');
       const { name } = payload;
-      const unit = curYear.units.filter(year => year.name === name);
+      console.log(curYear);
+      const [unit] = curYear.units.filter(year => year.name === name);
+      console.log(unit);
       const index = curYear.units.indexOf(unit);
       if (index > -1) {
-        curYear.splice(index, 1);
+        curYear.units.splice(index, 1);
       }
-      return state;
+      return clonedState;
     }
 
     default: {
-      return state;
+      return clonedState;
     }
   }
 };
