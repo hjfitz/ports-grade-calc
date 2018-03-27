@@ -1,14 +1,16 @@
 import * as actions from '../constants/action-types';
 
+const log = (...msgs) => console.log('[ACTION]', ...msgs);
+
 // change the unit properties
-export const changeUnit = (name, year, changeProps) => {
+export const changeUnit = (index, name, year, changeProps = {}) => {
+  log(`changeUnit@${year}`, JSON.stringify(changeProps));
   const defaultUnit = {
-    name,
+    index,
     year,
-    credits: 20,
-    grade: 100,
+    name,
   };
-  const payload = Object.assign(changeProps, defaultUnit);
+  const payload = Object.assign(defaultUnit, changeProps);
   return { type: actions.CHANGE_UNIT, payload };
 };
 
@@ -19,7 +21,7 @@ export const addUnit = year => ({
 });
 
 // remove a unit
-export const removeUnit = (name, year) => ({
+export const removeUnit = (year, index) => ({
   type: actions.REMOVE_UNIT,
-  payload: { name, year },
+  payload: { year, index },
 });

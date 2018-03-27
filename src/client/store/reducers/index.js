@@ -1,3 +1,5 @@
+import { cloneDeep } from 'lodash/lang';
+
 import * as actions from '../constants/action-types';
 
 const initialState = {
@@ -28,38 +30,41 @@ const initialState = {
  */
 const rootReducer = (state = initialState, action) => {
   const { type, payload } = action;
-  console.log(action);
 
   if (!payload || !payload.year) return state;
 
-  console.log(state);
-
   // clone the state to avoid any unwanted mutations
-  const clonedState = Object.assign({}, state);
+  const clonedState = cloneDeep(state);
   const curYear = clonedState[payload.year];
-  console.log(curYear);
   switch (type) {
     case actions.CHANGE_UNIT: {
-      const { credits, grade, name } = payload;
-      const [unit] = curYear.units.reduce(year => year.name === name);
-      Object.assign(unit, { credits, grade });
+      const {
+        credits, grade, name, index,
+      } = payload;
+      console.log('[REDUCER] changing', name);
+
+      const unit = curYear.units[index];
+      Object.assign(unit, { credits, grade, name });
       return clonedState;
     }
     case actions.ADD_UNIT: {
-      curYear.units.push({ name: 'Placeholder', credits: 20, grade: 100 });
+      console.log('[REDUCER] adding new unit');
+      curYear.units.push({
+        name: 'Placeholder',
+        credits: 20,
+        grade: 100,
+      });
       return clonedState;
     }
 
     case actions.REMOVE_UNIT: {
-      console.log('Remove year invoked');
-      const { name } = payload;
-      console.log(curYear);
-      const [unit] = curYear.units.filter(year => year.name === name);
-      console.log(unit);
-      const index = curYear.units.indexOf(unit);
+      const { index } = payload;
+      console.log('[REDUCER] Removing', index);
+      console.log(curYear.units[index]);
       if (index > -1) {
         curYear.units.splice(index, 1);
       }
+      console.log(curYear.units);
       return clonedState;
     }
 
