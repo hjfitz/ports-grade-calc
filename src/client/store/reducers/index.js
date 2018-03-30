@@ -2,6 +2,8 @@ import { cloneDeep } from 'lodash/lang';
 import calculateGrades from './classification-rules';
 import * as actions from '../constants/action-types';
 
+const log = (...messages) => console.log('[REDUCER]', ...messages);
+
 const initialUnits = {
   year2: {
     units: [
@@ -31,7 +33,6 @@ const initialState = {
   calculated: calculateGrades(initialUnits),
 };
 
-
 /**
  * @param {object} state new state
  * @param {string} action action to do
@@ -40,46 +41,46 @@ const rootReducer = (state = initialState, action) => {
   const { type, payload } = action;
 
   if (!payload || !payload.year) return state;
-
   // clone the state to avoid any unwanted mutations
   const clonedState = cloneDeep(state);
-  console.log(clonedState);
   const curYear = clonedState.years[payload.year];
   switch (type) {
     case actions.CHANGE_UNIT: {
       const {
         credits, grade, name, index,
       } = payload;
-      console.log('[REDUCER] changing', name);
+      log('changing', name);
 
       const unit = curYear.units[index];
       Object.assign(unit, { credits, grade, name });
-      return clonedState;
+      break;
     }
     case actions.ADD_UNIT: {
-      console.log('[REDUCER] adding new unit');
+      log('adding new unit');
       curYear.units.push({
         name: 'Placeholder',
         credits: 20,
         grade: 100,
       });
-      return clonedState;
+      break;
     }
 
     case actions.REMOVE_UNIT: {
       const { index } = payload;
-      console.log('[REDUCER] Removing', index);
-      console.log(curYear.units[index]);
+      console.log('removing', index);
       if (index > -1) {
         curYear.units.splice(index, 1);
       }
-      console.log(curYear.units);
-      return clonedState;
+      break;
     }
 
     default: {
       return clonedState;
     }
   }
+  const years = cloneDeep(clonedState.years);
+  log('recalculating grades');
+  clonedState.calculated = calculateGrades(years);
+  return clonedState;
 };
 export default rootReducer;

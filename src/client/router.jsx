@@ -11,7 +11,7 @@ import 'bootstrap/dist/css/bootstrap.css';
  *  local imports
  */
 import { Layout } from './components/Layouts';
-import { Home } from './components/Pages';
+import { Calculator } from './components/Pages';
 import store from './store/';
 import './styles/main.css';
 
@@ -27,14 +27,7 @@ const onUpdate = () => window.scrollTo(0, 0);
 // our client-side router
 const router = (
   <Provider store={store}>
-    <BrowserRouter onUpdate={onUpdate}>
-      <Layout>
-        <Switch>
-          {/* Routes go here */}
-          <Route exact path="/" component={Home} />
-        </Switch>
-      </Layout>
-    </BrowserRouter>
+    <Calculator />
   </Provider>
 );
 

@@ -1,1 +1,1 @@
-export { default as Home } from './pages/home';
+export { default as Calculator } from './pages/calc';

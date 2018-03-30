@@ -12,6 +12,7 @@ module.exports = {
     "arrow-parens": ["error", "as-needed"],
     "no-return-assign": 0,
     "no-nested-ternary": 0,
+    "no-fallthrough": 0,
   },
   "env": {
    "browser": true,

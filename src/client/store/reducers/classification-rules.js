@@ -74,13 +74,13 @@ const calculateGrades = units => {
    * after first discounting the marks in the worst 20 credits both at Level 5 and at Level 6
    */
 
-  ret.rule1 = ((avgY2 * 0.4) + (avgY3 * 0.6));
+  ret.rule1 = ((avgY2 * 0.4) + (avgY3 * 0.6)).toFixed(3);
   /**
    * the  classification  of  the  weighted  mean  of  all  relevant  credits  at  Level  6
    * after  first discounting the marks in the worst 20 credits at Level 6
    */
 
-  ret.rule2 = avgY3;
+  ret.rule2 = avgY3.toFixed(3);
 
   /**
    * the minimum classification in which more than 50% of the combined relevant
@@ -105,7 +105,7 @@ const calculateGrades = units => {
   // this process means that we don't get units with the same grade mixed up
   const [lowerBound] = chunk(splitCredits(sorted), 22);
   const { grade } = lowerBound[lowerBound.length - 1];
-  ret.rule3 = grade;
+  ret.rule3 = grade.toFixed(3);
 
 
   // remove the top 140 credits

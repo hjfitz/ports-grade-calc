@@ -2,6 +2,13 @@ import React from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../../store/actions';
 
+/**
+ * TO FUCKING DO
+ * dispatch changeUnit onBlur for grade/credits
+ * dispatch a new action for *purely* calculating the grade
+ *   which not reflow, meaning no focus lost
+ */
+
 const mapStoreToProps = state => ({ years: state.years });
 
 const mapDispatchToProps = dispatch => ({
@@ -11,10 +18,7 @@ const mapDispatchToProps = dispatch => ({
     dispatch(actions.changeUnit(index, name, year, changes)),
 });
 
-const yearMap = {
-  year2: 'Second Year',
-  year3: 'Third Year',
-};
+const yearMap = { year2: 'Second Year', year3: 'Third Year' };
 
 class ConnectedGradeInputs extends React.Component {
   removeUnit(year, index) {
@@ -22,6 +26,7 @@ class ConnectedGradeInputs extends React.Component {
   }
 
   changeUnit(index, year, cName) {
+    // hack
     const elems = document.querySelectorAll(`.${cName}`);
     const [name, grade, credits] = [...elems].map(elem => elem.value);
     this.props.changeUnit(index, name, year, { grade, credits });
@@ -36,7 +41,7 @@ class ConnectedGradeInputs extends React.Component {
         const className = `${year}${idx}${name}`;
         const callback = () => this.changeUnit(idx, year, className);
         return (
-          <div key={year + name} className="row" data-index={idx}>
+          <div key={year + name + (grade * idx)} className="row unit">
             <div className="col col-md-6">
               <input
                 type="text"
@@ -89,7 +94,11 @@ class ConnectedGradeInputs extends React.Component {
         </div>
       );
     });
-    return yearInputs;
+    return (
+      <div className="row">
+        {yearInputs}
+      </div>
+    );
   }
 }
 
