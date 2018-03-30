@@ -1,5 +1,4 @@
 const Notifier = require('webpack-build-notifier');
-const { default: Prepack } = require('prepack-webpack-plugin');
 const webpack = require('webpack');
 const path = require('path');
 
@@ -29,6 +28,9 @@ const babelConfig = {
     }],
     '@babel/react',
   ],
+  plugins: [
+    '@babel/plugin-proposal-object-rest-spread',
+  ],
 };
 
 const cssConfig =
@@ -40,7 +42,7 @@ const cssConfig =
 
 
 module.exports = {
-  entry: { bundle: ['./src/client/spa/router.jsx'] },
+  entry: { bundle: ['./src/client/router.jsx'] },
   output: { filename: '[name].js', path: output },
   devtool: 'source-map',
   resolve: { extensions: ['.js', '.jsx', '.json', '.css'] },

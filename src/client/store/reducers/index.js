@@ -1,28 +1,36 @@
 import { cloneDeep } from 'lodash/lang';
-
+import calculateGrades from './classification-rules';
 import * as actions from '../constants/action-types';
 
-const initialState = {
+const initialUnits = {
   year2: {
     units: [
-      { name: 'DSALG', credits: 20, grade: 100 },
-      { name: 'MATHFUN', credits: 20, grade: 100 },
-      { name: 'ADPROC', credits: 20, grade: 100 },
-      { name: 'INSE', credits: 20, grade: 100 },
-      { name: 'COSINE', credits: 20, grade: 100 },
-      { name: 'WEBSCRP', credits: 20, grade: 100 },
+      { name: 'DSALG', credits: 20, grade: 91 },
+      { name: 'MATHFUN', credits: 20, grade: 94 },
+      { name: 'ADPROC', credits: 20, grade: 80 },
+      { name: 'INSE', credits: 20, grade: 78 },
+      { name: 'COSINE', credits: 20, grade: 87 },
+      { name: 'WEBSCRP', credits: 20, grade: 77 },
     ],
   },
   year3: {
     units: [
-      { name: 'PJE', credits: 40, grade: 100 },
-      { name: 'THEOCS', credits: 20, grade: 100 },
-      { name: 'DISPARP', credits: 20, grade: 100 },
-      { name: 'SECRYPT', credits: 20, grade: 100 },
-      { name: 'WEBRES', credits: 20, grade: 100 },
+      { name: 'PJE', credits: 40, grade: 70 },
+      { name: 'THEOCS', credits: 20, grade: 40 },
+      { name: 'DISPARP', credits: 20, grade: 40 },
+      { name: 'SECRYPT', credits: 20, grade: 40 },
+      { name: 'WEBRES', credits: 20, grade: 40 },
     ],
   },
 };
+
+const initialState = {
+  years: {
+    ...initialUnits,
+  },
+  calculated: calculateGrades(initialUnits),
+};
+
 
 /**
  * @param {object} state new state
@@ -35,7 +43,8 @@ const rootReducer = (state = initialState, action) => {
 
   // clone the state to avoid any unwanted mutations
   const clonedState = cloneDeep(state);
-  const curYear = clonedState[payload.year];
+  console.log(clonedState);
+  const curYear = clonedState.years[payload.year];
   switch (type) {
     case actions.CHANGE_UNIT: {
       const {

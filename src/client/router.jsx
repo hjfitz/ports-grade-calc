@@ -12,8 +12,8 @@ import 'bootstrap/dist/css/bootstrap.css';
  */
 import { Layout } from './components/Layouts';
 import { Home } from './components/Pages';
-import store from '../store/';
-import '../styles/main.css';
+import store from './store/';
+import './styles/main.css';
 
 /**
  * import service worker
