@@ -19,7 +19,7 @@ const { logger, expressLogger } = require('./src/server/logger');
  * app vars
  */
 const app = express();
-const pub = path.join(__dirname, 'public');
+const pub = path.join(__dirname, 'docs');
 const index = path.join(pub, 'index.html');
 const offline = path.join(pub, 'offline.html');
 const worker = path.join(pub, 'javascripts', 'worker.js');
