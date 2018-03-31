@@ -53,7 +53,7 @@ if (process.env.ENABLE_HTTP2 === 'true') {
   app.use(netjet());
 }
 
-app.use('/public', express.static(pub));
+app.use('/', express.static(pub));
 
 
 /**
