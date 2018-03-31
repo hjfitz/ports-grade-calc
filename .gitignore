@@ -4,10 +4,6 @@ node_modules/
 # If you use vim
 *.swp
 
-# Don't upload the generated bundle
-# It's better to freshly build it
-public/javascripts/bundle*
-
 # SSL Certs
 *.pem
 
