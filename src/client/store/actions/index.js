@@ -25,3 +25,13 @@ export const removeUnit = (year, index) => ({
   type: actions.REMOVE_UNIT,
   payload: { year, index },
 });
+
+export const changeGrade = (index, grade, credits, year) => ({
+  type: actions.CHANGE_GRADE,
+  payload: {
+    index,
+    grade,
+    credits,
+    year,
+  },
+});

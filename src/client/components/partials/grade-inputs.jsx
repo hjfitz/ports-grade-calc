@@ -16,6 +16,8 @@ const mapDispatchToProps = dispatch => ({
   addUnit: year => dispatch(actions.addUnit(year)),
   changeUnit: (index, name, year, changes) =>
     dispatch(actions.changeUnit(index, name, year, changes)),
+  changeGrade: (index, grade, credits, year) =>
+    dispatch(actions.changeGrade(index, grade, credits, year)),
 });
 
 const yearMap = { year2: 'Second Year', year3: 'Third Year' };
@@ -32,6 +34,13 @@ class ConnectedGradeInputs extends React.Component {
     this.props.changeUnit(index, name, year, { grade, credits });
   }
 
+  changeGrade(index, year, cName) {
+    // :stophack:
+    const elems = document.querySelectorAll(`.${cName}`);
+    const [, grade, credits] = [...elems].map(elem => elem.value);
+    this.props.changeGrade(index, grade, credits, year);
+  }
+
   render() {
     const { years } = this.props;
     const yearInputs = Object.keys(years).map(year => {
@@ -39,7 +48,8 @@ class ConnectedGradeInputs extends React.Component {
       const mappedUnits = years[year].units.map((unit, idx) => {
         const { name, credits, grade } = unit;
         const className = `${year}${idx}${name}`;
-        const callback = () => this.changeUnit(idx, year, className);
+        const onBlur = () => this.changeUnit(idx, year, className);
+        const onKeyUp = () => this.changeGrade(idx, year, className);
         return (
           <div key={year + name + (grade * idx)} className="row unit">
             <div className="col col-md-6">
@@ -47,7 +57,7 @@ class ConnectedGradeInputs extends React.Component {
                 type="text"
                 className={`form-control name ${className}`}
                 defaultValue={name}
-                onBlur={callback}
+                onBlur={onBlur}
               />
             </div>
             <div className="col col-md-3">
@@ -55,7 +65,8 @@ class ConnectedGradeInputs extends React.Component {
                 type="text"
                 className={`form-control grade ${className}`}
                 defaultValue={grade}
-                onBlur={callback}
+                onBlur={onBlur}
+                onKeyUp={onKeyUp}
               />
             </div>
             <div className="col col-md-2">
@@ -63,7 +74,8 @@ class ConnectedGradeInputs extends React.Component {
                 type="text"
                 className={`form-control credits ${className}`}
                 defaultValue={credits}
-                onBlur={callback}
+                onBlur={onBlur}
+                onKeyUp={onKeyUp}
               />
             </div>
             <button

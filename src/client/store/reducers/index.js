@@ -33,6 +33,12 @@ const initialState = {
   calculated: calculateGrades(initialUnits),
 };
 
+const recalc = state => {
+  const years = cloneDeep(state.years);
+  log('recalculating grades');
+  state.calculated = calculateGrades(years);
+};
+
 /**
  * @param {object} state new state
  * @param {string} action action to do
@@ -53,7 +59,8 @@ const rootReducer = (state = initialState, action) => {
 
       const unit = curYear.units[index];
       Object.assign(unit, { credits, grade, name });
-      break;
+      recalc(clonedState);
+      return clonedState;
     }
     case actions.ADD_UNIT: {
       log('adding new unit');
@@ -62,8 +69,8 @@ const rootReducer = (state = initialState, action) => {
         credits: 20,
         grade: 100,
       });
-      break;
-    }
+      recalc(clonedState);
+      return clonedState; }
 
     case actions.REMOVE_UNIT: {
       const { index } = payload;
@@ -71,16 +78,33 @@ const rootReducer = (state = initialState, action) => {
       if (index > -1) {
         curYear.units.splice(index, 1);
       }
-      break;
+      recalc(clonedState);
+      return clonedState;
+    }
+
+    case actions.CHANGE_GRADE: {
+      const {
+        year,
+        index,
+        grade,
+        credits,
+      } = payload;
+      const clonedYears = cloneDeep(clonedState.years);
+      console.log(year);
+      const clonedCurYear = clonedYears[year];
+      console.log(clonedCurYear);
+
+      clonedCurYear.units[index] = {
+        name: clonedCurYear.units[index].name,
+        grade,
+        credits,
+      };
+      clonedState.calculated = calculateGrades(clonedYears);
     }
 
     default: {
       return clonedState;
     }
   }
-  const years = cloneDeep(clonedState.years);
-  log('recalculating grades');
-  clonedState.calculated = calculateGrades(years);
-  return clonedState;
 };
 export default rootReducer;
