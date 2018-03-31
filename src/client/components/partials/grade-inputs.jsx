@@ -50,8 +50,11 @@ class ConnectedGradeInputs extends React.Component {
         const className = `${year}${idx}${name}`;
         const onBlur = () => this.changeUnit(idx, year, className);
         const onKeyUp = () => this.changeGrade(idx, year, className);
+        /* disable eslint here because the index is not arbitrary
+           and two entries could be the same */
+        /* eslint-disable react/no-array-index-key */
         return (
-          <div key={year + name + (grade * idx)} className="row unit">
+          <div key={year + name + grade + idx} className="row unit">
             <div className="col col-md-6">
               <input
                 type="text"

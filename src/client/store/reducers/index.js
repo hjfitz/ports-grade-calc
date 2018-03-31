@@ -7,36 +7,35 @@ const log = (...messages) => console.log('[REDUCER]', ...messages);
 const initialUnits = {
   year2: {
     units: [
-      { name: 'DSALG', credits: 20, grade: 91 },
-      { name: 'MATHFUN', credits: 20, grade: 94 },
-      { name: 'ADPROC', credits: 20, grade: 80 },
-      { name: 'INSE', credits: 20, grade: 78 },
-      { name: 'COSINE', credits: 20, grade: 87 },
-      { name: 'WEBSCRP', credits: 20, grade: 77 },
+      { name: 'DSALG', credits: 20, grade: 40 },
+      { name: 'MATHFUN', credits: 20, grade: 40 },
+      { name: 'ADPROC', credits: 20, grade: 40 },
+      { name: 'INSE', credits: 20, grade: 40 },
+      { name: 'COSINE', credits: 20, grade: 40 },
+      { name: 'Optional Unit 1', credits: 20, grade: 40 },
     ],
   },
   year3: {
     units: [
-      { name: 'PJE', credits: 40, grade: 70 },
+      { name: 'PJE', credits: 40, grade: 40 },
       { name: 'THEOCS', credits: 20, grade: 40 },
       { name: 'DISPARP', credits: 20, grade: 40 },
-      { name: 'SECRYPT', credits: 20, grade: 40 },
-      { name: 'WEBRES', credits: 20, grade: 40 },
+      { name: 'Optional Unit 1', credits: 20, grade: 40 },
+      { name: 'Optional Unit 2', credits: 20, grade: 40 },
     ],
   },
 };
 
 const initialState = {
-  years: {
-    ...initialUnits,
-  },
+  years: { ...initialUnits },
   calculated: calculateGrades(initialUnits),
 };
 
 const recalc = state => {
+  const fuckyoueeslint = state;
   const years = cloneDeep(state.years);
   log('recalculating grades');
-  state.calculated = calculateGrades(years);
+  fuckyoueeslint.calculated = calculateGrades(years);
 };
 
 /**
@@ -70,14 +69,12 @@ const rootReducer = (state = initialState, action) => {
         grade: 100,
       });
       recalc(clonedState);
-      return clonedState; }
+      return clonedState;
+    }
 
     case actions.REMOVE_UNIT: {
       const { index } = payload;
-      console.log('removing', index);
-      if (index > -1) {
-        curYear.units.splice(index, 1);
-      }
+      if (index > -1) curYear.units.splice(index, 1);
       recalc(clonedState);
       return clonedState;
     }
@@ -90,9 +87,7 @@ const rootReducer = (state = initialState, action) => {
         credits,
       } = payload;
       const clonedYears = cloneDeep(clonedState.years);
-      console.log(year);
       const clonedCurYear = clonedYears[year];
-      console.log(clonedCurYear);
 
       clonedCurYear.units[index] = {
         name: clonedCurYear.units[index].name,

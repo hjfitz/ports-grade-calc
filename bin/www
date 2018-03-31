@@ -53,17 +53,16 @@ if (process.env.ENABLE_SOCKET === 'true') {
 }
 
 // inform us of the running server
-server.on("listening", () => logger('info', 'bin/www', `Server running on port //localhost:${port}`));
+server.on('listening', () => logger('info', 'bin/www', `Server running on port //localhost:${port}`));
 
 // handle ports the lazy way
 server.on('error', ({ code }) => {
   if (code === 'EADDRINUSE') {
-    port++;
+    port += 1;
     logger('error', 'bin/www', `ERROR, PORT IN USE. USING ${port}`);
     server.listen(port);
   } else {
     throw new Error(code);
-    process.exit(1);
   }
 });
 
