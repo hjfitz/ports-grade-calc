@@ -1,5 +1,5 @@
 import React from 'react';
-import { GradeInputs, CalculatedGrades } from '../Partials';
+import { GradeInputs, CalculatedGrades, Rules } from '../Partials';
 
 const Calculator = () => (
   <div className="container">
@@ -7,6 +7,7 @@ const Calculator = () => (
     <div className="row">
       <CalculatedGrades />
       <GradeInputs />
+      <Rules />
     </div>
   </div>
 );

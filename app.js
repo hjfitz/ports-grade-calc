@@ -19,7 +19,7 @@ const { logger, expressLogger } = require('./src/server/logger');
  * app vars
  */
 const app = express();
-const pub = path.join(__dirname, 'docs');
+const pub = path.join(__dirname, 'public');
 const index = path.join(pub, 'index.html');
 const offline = path.join(pub, 'offline.html');
 const worker = path.join(pub, 'javascripts', 'worker.js');
@@ -53,7 +53,7 @@ if (process.env.ENABLE_HTTP2 === 'true') {
   app.use(netjet());
 }
 
-app.use('/', express.static(pub));
+app.use('/public', express.static(pub));
 
 
 /**
