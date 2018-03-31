@@ -47,7 +47,7 @@ class ConnectedGradeInputs extends React.Component {
     // generate table
       const mappedUnits = years[year].units.map((unit, idx) => {
         const { name, credits, grade } = unit;
-        const className = `${year}${idx}${name}`;
+        const className = `${year}${idx}${name.replace(/ /g, '')}`;
         const onBlur = () => this.changeUnit(idx, year, className);
         const onKeyUp = () => this.changeGrade(idx, year, className);
         /* disable eslint here because the index is not arbitrary
@@ -97,6 +97,11 @@ class ConnectedGradeInputs extends React.Component {
           <div className="card">
             <div className="card-body">
               <div className="card-title">{yearMap[year]}</div>
+              <div className="row">
+                <div className="col col-md-6">Unit</div>
+                <div className="col col-md-3">Grade</div>
+                <div className="col col-md-3">Credits</div>
+              </div>
               {mappedUnits}
               <button
                 type="button"
